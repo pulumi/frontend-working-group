@@ -33,23 +33,33 @@ Ideally, PRs don’t have to worry about formatting issues (commas, semicolons, 
 ## Developing for mobile
 Consider mobile-first development - build up, don’t pare down.  We use a shared set of breakpoints across our frontend surfaces, and you should consider how your change will appear at each of those breakpoints.  If you intentionally are not considering a breakpoint for any reason, it’s best practice to note that in the code.
 
-When including different sets of styles for different target viewport sizes using media queries inside the same stylesheet, it is a good idea to make the default styling before any media queries have been applied to the document the narrow screen/mobile styling, and then override this for wider viewports inside successive media queries. [Source](https://developer.mozilla.org/en-US/docs/MDN/Guidelines/Code_guidelines/CSS#use_mobile_first_media_queries).
+Write CSS styles for mobile first, then override those styles with media queries targeting successive viewport widths with `@media (min-width: )` ([Source](https://developer.mozilla.org/en-US/docs/MDN/Guidelines/Code_guidelines/CSS#use_mobile_first_media_queries)):
 
-```
-/*Default CSS layout for narrow screens*/
+/* Default CSS layout for narrow screens. */
+button {
+    color: black;
+}
 
+/* CSS for medium width screens. */
 @media (min-width: 480px) {
-  /*CSS for medium width screens*/
+    button {
+        color: red;
+    }
 }
 
+/* CSS for wide screens. */
 @media (min-width: 800px) {
-  /*CSS for wide screens*/
+    button {
+        color: green;
+    }
 }
 
+/* CSS for really wide screens. */
 @media (min-width: 1100px) {
-  /*CSS for really wide screens*/
+    button {
+        color: blue;
+    }
 }
-```
 
 <!-- TODO: link to mobile breakpoint code paths -->
 
@@ -57,7 +67,7 @@ When including different sets of styles for different target viewport sizes usin
 Guide to terminology: https://github.com/airbnb/css#terminology
 
 ### Naming 
-- Prefer dashes over camelCasing in class names (https://github.com/airbnb/css)
+- Prefer dashes over camelCasing in class names (https://github.com/airbnb/css).
 - Prefer dash-cased variable names (e.g. $my-variable) over camelCased or snake_cased variable names.
 - Use human readable selectors that describe what element(s) they style. [Source](https://developer.wordpress.org/coding-standards/wordpress-coding-standards/css/).
 
@@ -81,7 +91,7 @@ Guide to terminology: https://github.com/airbnb/css#terminology
 
 ### Structure
 
-- Refrain from using over-qualified selectors: `div.container` can simply be stated as `.container`
+- Refrain from using over-qualified selectors: `div.container` can simply be stated as `.container`.
 - Try to avoid using IDs as selectors, as they are overly specific.
 
 ### Property ordering
@@ -96,12 +106,12 @@ Group properties together meaningfully.  Here's a suggested ordering from [Wordp
 6. Nested selectors
 
 ### General
-- Write detailed comments for code that isn't self-documenting.  Examples might include: uses of z-index, compatibility or browser-specific hacks
+- Write detailed comments for code that isn't self-documenting.  Examples might include: uses of z-index, compatibility or browser-specific hacks.
 - Mixins should be used to DRY up your code, add clarity, or abstract complexity--in much the same way as well-named functions.
-- Use flexible/relative units
-- Favor longhand rules over terse shorthand
+- Use flexible/relative units.
+- Favor longhand rules over terse shorthand.
 
-To start with, it is often harder to understand what the shorthand is doing. It takes a while to pick apart exactly what font syntax is doing.  [Source](https://developer.mozilla.org/en-US/docs/MDN/Guidelines/Code_guidelines/CSS#favor_longhand_rules_over_terse_shorthand).
+Shorthand is preferable for single properties - for example, `padding: 2px 4px` instead of `padding-top` and `padding-bottom`.  But when combining multiple properties, it is often harder to understand what the shorthand is doing. It takes a while to pick apart exactly what the font syntax below is doing.  [Source](https://developer.mozilla.org/en-US/docs/MDN/Guidelines/Code_guidelines/CSS#favor_longhand_rules_over_terse_shorthand).
 
 `font: small-caps bold 2rem/1.5 sans-serif;`
 
@@ -114,7 +124,11 @@ line-height: 1.5;
 font-family: sans-serif;
 ```
 
-## Javascript
+## JavaScript
+
+### Use TypeScript
+
+We generally prefer TypeScript over vanilla JavaScript. Occasionally this may not be practical, and that's okay, but as a general rule, if you _can_ use TypeScript, you should.
 
 ### Use property value shorthand.
 Why? It is shorter and descriptive. [Source](https://github.com/airbnb/javascript#es6-object-concise).
@@ -133,7 +147,7 @@ const obj = {
 };
 ```
 
-### Use array spreads ... to copy arrays.
+### Use array spreads (`...`) to copy arrays.
 [Source](https://github.com/airbnb/javascript#es6-array-spreads).
 
 ```
@@ -290,7 +304,7 @@ const foo = maybe1 > maybe2
 // best
 const foo = maybe1 > maybe2 ? 'bar' : maybeNull;
 
-15.7 Avoid unneeded ternary statements. eslint: no-unneeded-ternary
+#### Avoid unneeded ternary statements. eslint: no-unneeded-ternary
 // bad
 const foo = a ? a : b;
 const bar = c ? true : false;
